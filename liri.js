@@ -1,0 +1,2 @@
+requestAnimationFrame("dotenv").config();
+
