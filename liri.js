@@ -14,82 +14,77 @@ processArg();
 function processArg (){
     switch(command){
         case "concert-this":
-            axios
-            .get("https://rest.bandsintown.com/artists/"+ term +"/events?app_id=codingbootcamp")
-            .then(function(response) {
-                // If the axios was successful...
-                // Then log the body from the site!
-                console.log("Band: ", term);
-                console.log("Location: ",response.data[0].venue.name);
-                console.log("Date: ", moment().format(response.data[0].datetime.slice(0, 10), "MM-DD-YYYY"));
-            })
-            .catch(function(error) {
-                if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                // console.log(error.response.data);
-                // console.log(error.response.status);
-                // console.log(error.response.headers);
-                } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an object that comes back with details pertaining to the error that occurred.
-                // console.log(error.request);
-                } else {
-                // Something happened in setting up the request that triggered an Error
-                // console.log("Error", error.message);
-                }
-                // console.log(error.config);
-            });
-
+            concertThis();
             break;
         case "spotify-this-song":
-            spotify
-            .search({type: 'track', query: term})
-            .then(function(response) {
-                console.log("Artist: ", response.tracks.items[0].artists[0].name);
-                console.log("Song: ", response.tracks.items[0].name);
-                console.log("Album: ", response.tracks.items[0].album.name);
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
+            spotifyThis (); 
         
             break;
         case "movie-this":
-            axios
-            .get("https://www.omdbapi.com/?t=" + term + "&y=&plot=short&apikey=trilogy")
-            .then(function(response) {
-                // If the axios was successful...
-                // Then log the body from the site!
-                console.log(response.data);
-            })
-            .catch(function(error) {
-                if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log("test2");
-                } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an object that comes back with details pertaining to the error that occurred.
-                console.log("test3");
-                } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log("Error", error.message);
-                }
-                console.log("test4");
-            });
-        
+            movieThis();        
             break;
         case "do-what-it-says":
             fs.readFile("random.txt", "utf8", function(error, data){
                 if(error){
-                    return console.log(data);
+                     console.log(data);
                 }
-                var text = data;
+                var termItems = data.split(",");
+                command = termItems[0];
+                term = termItems[1];
+                spotifyThis();
             });
-            
             break;        
-
     }
 }
 
+function spotifyThis (){
+spotify
+        .search({type: 'track', query: term})
+        .then(function(response) {
+            console.log("Artist: ", response.tracks.items[0].artists[0].name);
+            console.log("Song: ", response.tracks.items[0].name);
+            console.log("Album: ", response.tracks.items[0].album.name);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+}
+
+function concertThis(){
+    axios
+    .get("https://rest.bandsintown.com/artists/"+ term +"/events?app_id=codingbootcamp")
+    .then(function(response) {
+
+        console.log("Band: ", term);
+        console.log("Location: ",response.data[0].venue.name);
+        console.log("Date: ", moment().format(response.data[0].datetime.slice(0, 10), "MM-DD-YYYY"));
+    })
+    .catch(function(error) {
+    
+    });
+}
+
+function movieThis(){
+    axios
+            .get("https://www.omdbapi.com/?t=" + term + "&y=&plot=short&apikey=trilogy")
+            .then(function(response) {
+                console.log("Title: ", response.data.Title);
+                console.log("Year: ", response.data.Year);
+                console.log("IMDB: ", response.data.imdbRating);
+                console.log("Rotten: ", response.data.Ratings[1].Value);
+                console.log("Langauge: ", response.data.Language);
+                console.log("Plot: ", response.data.Plot);
+                console.log(response.data.Actors);
+            })
+            .catch(function(error) {
+                if (error.response) {
+
+                } else if (error.request) {
+
+                } else {
+
+                console.log("Error", error.message);
+                }
+
+            });
+}
