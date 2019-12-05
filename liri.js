@@ -6,7 +6,8 @@ var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 
 var inquirer = require("inquirer");
-var response = process.argv[2];
+var userResponse = process.argv[2];
+var userArgs = process.argv[3];
 
 processAnswer();
 
@@ -20,15 +21,33 @@ function firstQuestion(){
         console.log(input.question);
         response = input.question;
         processAnswer();
-        
+
     });
 };
 
+function argChecker(){
+    if (userArgs !== undefined){
+        return userArgs;
+    }else{
+        inquirer.prompt([
+            {
+            name: "search",
+            message: "Search:"
+            }
+        ]).then(function(input){
+            console.log(input.search);
+            return input.search;
+            
+    
+    }
+}
+
 function processAnswer (){
-    switch(response){
+    switch(userResponse){
         case "concert-this":
+            var band = argChecker();
             axios
-            .get("https://rest.bandsintown.com/artists/queen/events?app_id=codingbootcamp")
+            .get("https://rest.bandsintown.com/artists/"+ band +"/events?app_id=codingbootcamp")
             .then(function(response) {
                 // If the axios was successful...
                 // Then log the body from the site!
@@ -54,7 +73,7 @@ function processAnswer (){
 
             break;
         case "spotify-this-song":
-            console.log(response);
+            
             spotify
             .search({ type: 'track', query: 'All the Small Things' })
             .then(function(response) {
@@ -101,7 +120,7 @@ function processAnswer (){
             
             break;        
         default:
-            if(response!==undefined){
+            if(userResponse!==undefined){
                 console.log("incorrect syntax!");
             }
             firstQuestion();
