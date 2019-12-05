@@ -12,5 +12,5 @@
 
 This is a node program that takes in four possible commands and a search term. It then displays pertinent results based on those commands.  
 
-![movie-this](img/img1.jpg)
+![movie-this](img1.jpg)
 
