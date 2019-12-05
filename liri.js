@@ -46,7 +46,9 @@ function processArg (){
             spotify
             .search({type: 'track', query: term})
             .then(function(response) {
-                console.log(response.tracks.items);
+                console.log("Artist: ", response.tracks.items[0].artists[0].name);
+                console.log("Song: ", response.tracks.items[0].name);
+                console.log("Album: ", response.tracks.items[0].album.name);
             })
             .catch(function(err) {
                 console.log(err);
@@ -55,7 +57,7 @@ function processArg (){
             break;
         case "movie-this":
             axios
-            .get("http://http://www.omdbapi.com/?i=" + term + "&apikey=74a7aa11")
+            .get("https://www.omdbapi.com/?t=" + term + "&y=&plot=short&apikey=trilogy")
             .then(function(response) {
                 // If the axios was successful...
                 // Then log the body from the site!
