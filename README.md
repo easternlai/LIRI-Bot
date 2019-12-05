@@ -12,6 +12,11 @@
 
 This is a node program that takes in four possible commands and a search term. It then displays pertinent results based on those commands.  
 
-![movie-this](img/concertthis.jpg?raw=true)
+![concert-this](https://github.com/easternlai/LIRI-Bot/blob/master/img/concertthis.JPG)
 
+![movie-this](https://github.com/easternlai/LIRI-Bot/blob/master/img/moviethis.JPG)
+
+![spotify-this](https://github.com/easternlai/LIRI-Bot/blob/master/img/spotify.JPG)
+
+![do-what-it-says](https://github.com/easternlai/LIRI-Bot/blob/master/img/dowhat.JPG)
 
