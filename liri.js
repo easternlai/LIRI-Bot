@@ -31,7 +31,7 @@ function processArg (){
                 var termItems = data.split(",");
                 command = termItems[0];
                 term = termItems[1];
-                spotifyThis();
+                processArg();
             });
             break;        
     }
